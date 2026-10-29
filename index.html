@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#102a43" />
+  <title>Finora — Personal Finance Advisor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="Finora home"><span class="brand-mark">f</span><span>finora<span class="brand-dot">.</span><small>PERSONAL FINANCE</small></span></a>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-item active" data-target="overview"><span class="nav-icon">◫</span> Overview</button>
+        <button class="nav-item" data-target="transactions"><span class="nav-icon">⇄</span> Transactions</button>
+        <button class="nav-item" data-target="budget"><span class="nav-icon">▤</span> Budget planner</button>
+        <button class="nav-item" data-target="savings"><span class="nav-icon">◉</span> Savings goals</button>
+        <button class="nav-item" data-target="advisor"><span class="nav-icon">✦</span> AI-style advisor <span class="new-tag">NEW</span></button>
+        <button class="nav-item" data-target="reports"><span class="nav-icon">▥</span> Reports</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="privacy-card"><span class="privacy-icon">♧</span><div><b>Your data stays here</b><p>This demo stores data only in this browser.</p></div></div>
+        <button class="nav-item" id="resetData"><span class="nav-icon">↻</span> Reset demo data</button>
+        <div class="profile"><div class="avatar">S</div><div><b id="profileName">Your account</b><small>Personal workspace</small></div><span class="profile-dots">•••</span></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+        <div class="breadcrumb">Workspace <span>/</span> <b id="pageBreadcrumb">Overview</b></div>
+        <div class="top-actions"><span class="secure-pill"><span></span> Private demo</span><button class="icon-btn" id="helpBtn" aria-label="Help">?</button><div class="avatar top-avatar">S</div></div>
+      </header>
+
+      <section class="page-section active" id="overview">
+        <div class="welcome-row"><div><p class="eyebrow">THURSDAY, YOUR MONEY CHECK-IN</p><h1>Good to see you, <span id="greetingName">there</span> <span class="wave">✦</span></h1><p class="subheading">A clearer view of your money starts here.</p></div><div class="welcome-actions"><button class="secondary-btn" id="editIncomeBtn">✎ Edit total income</button><button class="primary-btn" id="quickAdd"><span>＋</span> Add transaction</button></div></div>
+        <div class="hero-card">
+          <div class="hero-copy"><div class="hero-label"><span class="hero-dot"></span> TOTAL BALANCE <span class="info-dot" title="Calculated from the income and expenses you enter">i</span></div><div class="hero-balance" id="totalBalance">₹0</div><div class="hero-caption">Your recorded income minus recorded expenses this month</div><div class="hero-foot"><span class="hero-trend">↗ <b id="savingsRate">0%</b></span><span>monthly savings rate</span></div></div>
+          <div class="hero-graphic" aria-hidden="true"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="graphic-line line-one"></div><div class="graphic-line line-two"></div><div class="graphic-line line-three"></div><div class="graphic-card"><span>MONTHLY SNAPSHOT</span><b id="heroSaved">₹0 saved</b><small>Keep building your future.</small><div class="mini-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+        </div>
+        <div class="metric-grid">
+          <article class="metric-card"><div class="metric-top"><span class="metric-icon income-icon">↙</span><span class="metric-period">THIS MONTH</span></div><p>Total income</p><h2 id="totalIncome">₹0</h2><div class="metric-foot"><span class="tiny-dot green"></span>Money coming in</div></article>
+          <article class="metric-card"><div class="metric-top"><span class="metric-icon expense-icon">↗</span><span class="metric-period">THIS MONTH</span></div><p>Total expenses</p><h2 id="totalExpenses">₹0</h2><div class="metric-foot"><span class="tiny-dot orange"></span>Money going out</div></article>
+          <article class="metric-card"><div class="metric-top"><span class="metric-icon savings-icon">◈</span><span class="metric-period">SAVINGS RATE</span></div><p>Available to save</p><h2 id="availableSave">₹0</h2><div class="progress-track"><span id="savingsProgress"></span></div><div class="metric-foot"><span id="savingsFoot">Aim to save 20% of income</span></div></article>
+          <article class="metric-card"><div class="metric-top"><span class="metric-icon budget-icon">⌁</span><span class="metric-period">BUDGET STATUS</span></div><p>Budget used</p><h2 id="budgetUsed">0%</h2><div class="progress-track"><span id="budgetProgress"></span></div><div class="metric-foot"><span id="budgetFoot">Set a monthly budget</span></div></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel spending-panel"><div class="panel-heading"><div><h3>Spending overview</h3><p>See where your money goes</p></div><select id="chartPeriod" class="select-control" aria-label="Chart period"><option value="month">This month</option><option value="all">All entries</option></select></div><div class="chart-wrap"><canvas id="spendingChart" aria-label="Spending by category chart"></canvas><div class="chart-center"><span>Total spent</span><b id="chartTotal">₹0</b></div></div><div id="chartLegend" class="chart-legend"></div></article>
+          <article class="panel insights-panel"><div class="panel-heading"><div><h3>Money insights</h3><p>Small steps, stronger finances</p></div><span class="sparkle">✦</span></div><div id="insightList" class="insight-list"></div><button class="text-btn" data-goto="advisor">View all recommendations <span>→</span></button></article>
+        </div>
+        <article class="panel recent-panel"><div class="panel-heading"><div><h3>Recent transactions</h3><p>Your latest money activity</p></div><button class="text-btn" data-goto="transactions">View all <span>→</span></button></div><div class="table-scroll"><table><thead><tr><th>TRANSACTION</th><th>CATEGORY</th><th>DATE</th><th>AMOUNT</th></tr></thead><tbody id="recentRows"></tbody></table></div></article>
+      </section>
+
+      <section class="page-section" id="transactions">
+        <div class="page-title-row"><div><p class="eyebrow">YOUR MONEY ACTIVITY</p><h1>Transactions</h1><p class="subheading">Add income and expenses to get an instant overview.</p></div><button class="primary-btn" id="addTransactionBtn">＋ Add transaction</button></div>
+        <div class="summary-strip"><div><span>Total income</span><b id="txIncome">₹0</b></div><div><span>Total expenses</span><b id="txExpenses">₹0</b></div><div><span>Net balance</span><b id="txNet">₹0</b></div></div>
+        <article class="panel"><div class="panel-heading transaction-heading"><div><h3>All transactions</h3><p>Use the filters to find an entry</p></div><div class="filter-row"><input id="searchTransactions" class="input-control" placeholder="Search..." aria-label="Search transactions"><select id="filterType" class="select-control"><option value="all">All types</option><option value="income">Income</option><option value="expense">Expenses</option></select></div></div><div class="table-scroll"><table><thead><tr><th>TRANSACTION</th><th>CATEGORY</th><th>TYPE</th><th>DATE</th><th>AMOUNT</th><th></th></tr></thead><tbody id="transactionRows"></tbody></table></div><div id="emptyTransactions" class="empty-state hidden">No transactions match. Add one to get started.</div></article>
+      </section>
+
+      <section class="page-section" id="budget">
+        <div class="page-title-row"><div><p class="eyebrow">SPEND WITH INTENTION</p><h1>Budget planner</h1><p class="subheading">Set your monthly limit and track each category.</p></div><button class="primary-btn" id="editBudgetBtn">✎ Edit budget</button></div>
+        <div class="budget-hero panel"><div><span class="soft-label">MONTHLY SPENDING LIMIT</span><h2 id="budgetAmountLarge">₹0</h2><p id="budgetRemaining">Add a budget to start tracking.</p></div><div class="budget-ring" id="budgetRing"><div><b id="budgetRingPct">0%</b><span>used</span></div></div></div>
+        <div class="section-heading"><div><h3>Category budgets</h3><p>Compare your spending with your planned limits.</p></div></div><div id="categoryBudgets" class="category-budget-grid"></div>
+      </section>
+
+      <section class="page-section" id="savings">
+        <div class="page-title-row"><div><p class="eyebrow">MAKE ROOM FOR WHAT MATTERS</p><h1>Savings goals</h1><p class="subheading">Give your future plans a name and a target.</p></div><button class="primary-btn" id="addGoalBtn">＋ New goal</button></div>
+        <div class="goal-summary panel"><div class="goal-summary-icon">✧</div><div><span class="soft-label">TOTAL SAVINGS TARGET</span><h2 id="goalTotalTarget">₹0</h2><p id="goalSummaryText">Create your first goal to begin.</p></div></div>
+        <div id="goalsGrid" class="goals-grid"></div>
+        <div class="tip-banner"><span>✦</span><div><b>A little, consistently, adds up.</b><p>Try setting an automatic monthly target for each goal. This demo tracks your progress locally.</p></div></div>
+      </section>
+
+      <section class="page-section" id="advisor">
+        <div class="page-title-row"><div><p class="eyebrow">YOUR PERSONAL MONEY COACH</p><h1>AI-style advisor</h1><p class="subheading">Instant, rule-based suggestions from the numbers you enter.</p></div><span class="powered-pill">✦ SMART INSIGHTS</span></div>
+        <div class="advisor-layout"><article class="panel advisor-main"><div class="advisor-welcome"><div class="advisor-icon">✦</div><div><h2>Your money check-in</h2><p>Recommendations refresh when you change your transactions or budget.</p></div></div><div id="advisorRecommendations" class="recommendation-list"></div><div class="advisor-disclaimer">ⓘ These are educational suggestions generated in your browser, not personalised professional financial advice.</div></article><aside class="panel health-panel"><span class="soft-label">FINANCIAL HEALTH CHECK</span><div class="health-score" id="healthScore">—<small>/100</small></div><div class="health-meter"><span id="healthMeter"></span></div><b id="healthLabel">Add your details</b><p id="healthDescription">Your score updates from your income, expenses, savings rate, and budget.</p><div class="health-divider"></div><div class="health-row"><span>Savings rate</span><b id="healthSavings">0%</b></div><div class="health-row"><span>Budget status</span><b id="healthBudget">Not set</b></div><div class="health-row"><span>Expense tracking</span><b id="healthTracking">Getting started</b></div></aside></div>
+      </section>
+
+      <section class="page-section" id="reports">
+        <div class="page-title-row"><div><p class="eyebrow">UNDERSTAND YOUR HABITS</p><h1>Reports</h1><p class="subheading">A snapshot of the activity you have entered in this browser.</p></div><button class="secondary-btn" id="exportCsvBtn">⇩ Export CSV</button></div>
+        <div class="report-kpis"><div class="panel"><span>Total income</span><b id="reportIncome">₹0</b></div><div class="panel"><span>Total expenses</span><b id="reportExpenses">₹0</b></div><div class="panel"><span>Net cash flow</span><b id="reportNet">₹0</b></div><div class="panel"><span>Transactions</span><b id="reportCount">0</b></div></div>
+        <div class="content-grid report-grid"><article class="panel"><div class="panel-heading"><div><h3>Income vs expenses</h3><p>Current entries</p></div></div><div class="report-chart"><canvas id="incomeExpenseChart"></canvas></div></article><article class="panel"><div class="panel-heading"><div><h3>Spending by category</h3><p>Expense distribution</p></div></div><div id="reportCategories" class="report-category-list"></div></article></div>
+        <div class="report-note"><b>Demo report:</b> This is calculated from your locally stored entries, not bank-connected data. Export a CSV to keep a copy.</div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="transactionModal" role="dialog" aria-modal="true" aria-labelledby="transactionModalTitle"><div class="modal"><div class="modal-head"><div><p class="eyebrow">MONEY ACTIVITY</p><h2 id="transactionModalTitle">Add transaction</h2></div><button class="close-btn" data-close="transactionModal" aria-label="Close">×</button></div><form id="transactionForm"><label>Transaction name<input required id="txName" class="input-control" placeholder="e.g. Groceries"></label><div class="form-grid"><label>Type<select id="txType" class="input-control"><option value="expense">Expense</option><option value="income">Income</option></select></label><label>Amount (₹)<input required min="1" type="number" id="txAmount" class="input-control" placeholder="500"></label></div><div class="form-grid"><label>Category<select id="txCategory" class="input-control"><option>Food</option><option>Transport</option><option>Shopping</option><option>Bills</option><option>Education</option><option>Health</option><option>Entertainment</option><option>Salary</option><option>Freelance</option><option>Other</option></select></label><label>Date<input required type="date" id="txDate" class="input-control"></label></div><label>Note (optional)<input id="txNote" class="input-control" placeholder="Add a short note"></label><div class="modal-actions"><button type="button" class="secondary-btn" data-close="transactionModal">Cancel</button><button type="submit" class="primary-btn">Save transaction</button></div></form></div></div>
+  <div class="modal-backdrop" id="budgetModal" role="dialog" aria-modal="true" aria-labelledby="budgetModalTitle"><div class="modal compact-modal"><div class="modal-head"><div><p class="eyebrow">PLAN AHEAD</p><h2 id="budgetModalTitle">Set monthly budget</h2></div><button class="close-btn" data-close="budgetModal" aria-label="Close">×</button></div><form id="budgetForm"><label>Monthly spending limit (₹)<input required min="1" type="number" id="budgetInput" class="input-control" placeholder="10000"></label><p class="form-hint">Choose an amount you can realistically spend in one month.</p><div class="modal-actions"><button type="button" class="secondary-btn" data-close="budgetModal">Cancel</button><button type="submit" class="primary-btn">Save budget</button></div></form></div></div>
+  <div class="modal-backdrop" id="incomeModal" role="dialog" aria-modal="true" aria-labelledby="incomeModalTitle"><div class="modal compact-modal"><div class="modal-head"><div><p class="eyebrow">INCOME SETTINGS</p><h2 id="incomeModalTitle">Edit total monthly income</h2></div><button class="close-btn" data-close="incomeModal" aria-label="Close">×</button></div><form id="incomeForm"><label>Total monthly income (₹)<input required min="0" step="1" type="number" id="incomeInput" class="input-control" placeholder="20500"></label><p class="form-hint">Enter your new total income after a salary increment. Your Salary entry will be adjusted while other income entries stay unchanged. Your balance, savings rate, charts, reports, and advice will refresh automatically.</p><div class="modal-actions"><button type="button" class="secondary-btn" data-close="incomeModal">Cancel</button><button type="submit" class="primary-btn">Save income</button></div></form></div></div>
+
+  <div class="modal-backdrop" id="goalModal" role="dialog" aria-modal="true" aria-labelledby="goalModalTitle"><div class="modal compact-modal"><div class="modal-head"><div><p class="eyebrow">SAVE FOR YOUR FUTURE</p><h2 id="goalModalTitle">Create savings goal</h2></div><button class="close-btn" data-close="goalModal" aria-label="Close">×</button></div><form id="goalForm"><label>Goal name<input required id="goalName" class="input-control" placeholder="e.g. New laptop"></label><div class="form-grid"><label>Target amount (₹)<input required min="1" type="number" id="goalTarget" class="input-control" placeholder="30000"></label><label>Already saved (₹)<input min="0" type="number" id="goalSaved" class="input-control" value="0"></label></div><label>Target date (optional)<input type="date" id="goalDate" class="input-control"></label><div class="modal-actions"><button type="button" class="secondary-btn" data-close="goalModal">Cancel</button><button type="submit" class="primary-btn">Create goal</button></div></form></div></div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
