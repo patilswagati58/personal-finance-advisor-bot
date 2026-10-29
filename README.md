@@ -1,3 +1,11 @@
+# Personal Finance Advisor Bot
+
+## 🌐 Live Demo
+
+**(https://patilswagati58.github.io/personal-finance-advisor-bot/)**
+
+An interactive personal finance website with income management, expense tracking, budget planning, and financial insights.
+
 # Finora — Personal Finance Advisor Bot
 
 A responsive, frontend-only personal finance dashboard built with HTML, CSS, and vanilla JavaScript.
